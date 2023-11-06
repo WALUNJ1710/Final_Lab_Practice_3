@@ -17,11 +17,11 @@ Queens to generate the final n-queen’s matrix.
 
 1. Predict the price of the Uber ride from a given pickup point to the agreed drop-off location.
 Perform following tasks:
-1. Pre-process the dataset.
-2. Identify outliers.
-3. Check the correlation.
-4. Implement linear regression and random forest regression models.
-5. Evaluate the models and compare their respective scores like R2, RMSE, etc.
+    1. Pre-process the dataset.
+    2. Identify outliers.
+    3. Check the correlation.
+    4. Implement linear regression and random forest regression models.
+    5. Evaluate the models and compare their respective scores like R2, RMSE, etc.
 Dataset link: https://www.kaggle.com/datasets/yasserh/uber-fares-dataset
 
 2. Classify the email using the binary classification method. Email Spam detection has two
@@ -30,14 +30,14 @@ Support Vector Machine for classification. Analyze their performance.
 Dataset link: The emails.csv dataset on the Kaggle
 https://www.kaggle.com/datasets/balaka18/email-spam-classification-dataset-csv
 
-3. Implement Gradient Descent Algorithm to find the local minima of a function.
+4. Implement Gradient Descent Algorithm to find the local minima of a function.
 For example, find the local minima of the function y=(x+3)² starting from the point x=2.
 
-4. Implement K-Nearest Neighbors algorithm on diabetes.csv dataset. Compute confusion
+5. Implement K-Nearest Neighbors algorithm on diabetes.csv dataset. Compute confusion
 matrix, accuracy, error rate, precision and recall on the given dataset.
 Dataset link : https://www.kaggle.com/datasets/abdallamahgoub/diabetes
 
-5.  Implement K-Means clustering/ hierarchical clustering on sales_data_sample.csv dataset.
+6. Implement K-Means clustering/ hierarchical clustering on sales_data_sample.csv dataset.
 Determine the number of clusters using the elbow method.
 Dataset link : https://www.kaggle.com/datasets/kyanyoga/sample-sales-data
 
