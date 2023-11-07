@@ -1,0 +1,51 @@
+//Complier: https://remix.ethereum.org/
+// SPDX-License-Identifier: MIT
+pragma solidity >=0.7.0;
+
+contract Bank {
+    struct Account {
+        uint balance;
+    }
+
+    mapping(address => mapping(uint => Account)) public user_accounts;
+    mapping(address => uint) public numAccounts;
+
+    function createAccount(uint accountId) public {
+        require(accountId > 0, "Account ID should be greater than 0");
+        require(user_accounts[msg.sender][accountId].balance == 0, "Account already created with this ID");
+
+        user_accounts[msg.sender][accountId] = Account({
+            balance: 0
+        });
+        numAccounts[msg.sender]++;
+    }
+
+    function deposit(uint accountId, uint amount) public {
+        require(accountId > 0, "Account ID should be greater than 0");
+        require(user_accounts[msg.sender][accountId].balance >= 0, "Account not created with this ID");
+
+        user_accounts[msg.sender][accountId].balance += amount;
+    }
+
+    function withdraw(uint accountId, uint amount) public {
+        require(accountId > 0, "Account ID should be greater than 0");
+        require(user_accounts[msg.sender][accountId].balance >= amount, "Insufficient balance in the account");
+
+        user_accounts[msg.sender][accountId].balance -= amount;
+    }
+
+    function getBalance(uint accountId) public view returns (uint) {
+        require(accountId > 0, "Account ID should be greater than 0");
+        require(user_accounts[msg.sender][accountId].balance >= 0, "Account not created with this ID");
+
+        return user_accounts[msg.sender][accountId].balance;
+    }
+
+    function transfer(uint fromAccountId, uint toAccountId, uint amount) public {
+        require(fromAccountId > 0 && toAccountId > 0, "Account ID should be greater than 0");
+        require(user_accounts[msg.sender][fromAccountId].balance >= amount, "Insufficient balance in the source account");
+
+        user_accounts[msg.sender][fromAccountId].balance -= amount;
+        user_accounts[msg.sender][toAccountId].balance += amount;
+    }
+}

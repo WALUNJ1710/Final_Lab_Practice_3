@@ -1,0 +1,19 @@
+def fibonacci(n, steps=0):
+    if n <= 1:
+        return n, steps
+    else:
+        a, steps_a = fibonacci(n - 1, steps + 1)
+        b, steps_b = fibonacci(n - 2, steps + 1)
+        return a + b, steps_a + steps_b
+
+# Input for the Fibonacci sequence number (e.g., n=10)
+n = 10
+
+# Calculate Fibonacci and count steps
+result, step_count = fibonacci(n)
+print(f"Fibonacci({n}) = {result}")
+print(f"Total Steps: {step_count}")
+
+Output -
+Fibonacci(10) = 55
+Total Steps: 109

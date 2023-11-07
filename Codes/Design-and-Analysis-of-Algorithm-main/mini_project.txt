@@ -1,0 +1,84 @@
+import numpy as np
+import time
+import threading
+
+# Function for single-threaded matrix multiplication
+def single_thread_matrix_mult(matrix_a, matrix_b):
+    start_time = time.time()
+    result = np.dot(matrix_a, matrix_b)
+    end_time = time.time()
+    execution_time = end_time - start_time
+    return result, execution_time
+
+# Function for multithreaded matrix multiplication with one thread per row
+def multithread_matrix_mult_row(matrix_a, matrix_b, num_threads):
+    start_time = time.time()
+    result = np.zeros((matrix_a.shape[0], matrix_b.shape[1]))
+    
+    # Function to compute matrix multiplication for a subset of rows
+    def multiply_rows(start, end):
+        for i in range(start, end):
+            for j in range(matrix_b.shape[1]):
+                result[i, j] = sum(matrix_a[i, k] * matrix_b[k, j] for k in range(matrix_a.shape[1]))
+
+    # Create and start threads
+    threads = []
+    chunk_size = matrix_a.shape[0] // num_threads
+    for i in range(0, matrix_a.shape[0], chunk_size):
+        thread = threading.Thread(target=multiply_rows, args=(i, min(i + chunk_size, matrix_a.shape[0]))
+        threads.append(thread)
+        thread.start()
+
+    # Wait for all threads to finish
+    for thread in threads:
+        thread.join()
+    
+    end_time = time.time()
+    execution_time = end_time - start_time
+    return result, execution_time
+
+# Function to generate random matrices for testing
+def generate_random_matrix(rows, cols):
+    return np.random.rand(rows, cols)
+
+# Define matrix dimensions
+matrix_size = 500  # You can change the size as needed
+
+matrix_a = generate_random_matrix(matrix_size, matrix_size)
+matrix_b = generate_random_matrix(matrix_size, matrix_size)
+
+# Single-threaded matrix multiplication
+result_single_thread, time_single_thread = single_thread_matrix_mult(matrix_a, matrix_b)
+
+# Multithreaded matrix multiplication with one thread per row
+num_threads = 4  # You can change the number of threads as needed
+result_multithread_row, time_multithread_row = multithread_matrix_mult_row(matrix_a, matrix_b, num_threads)
+
+# Compare results and execution times
+if np.array_equal(result_single_thread, result_multithread_row):
+    print("Results match for single-threaded and multithreaded row-wise multiplication.")
+    print("Single-threaded execution time: {:.4f} seconds".format(time_single_thread))
+    print("Multithreaded (one thread per row) execution time: {:.4f} seconds".format(time_multithread_row))
+    print("Matrix Multiplication Result:")
+    print(result_single_thread)
+else:
+    print("Results do not match. Check the implementation.")
+
+
+Output- Results match for single-threaded and multithreaded row-wise multiplication.
+Single-threaded execution time: 1.4007 seconds
+Multithreaded (one thread per row) execution time: 0.3451 seconds
+Matrix Multiplication Result:
+[[126.0097244  124.04589802 128.37452914 ... 127.16513238 123.67895293
+  128.68001545]
+ [124.04192507 125.41108184 129.35475203 ... 124.7006824  125.24417879
+  128.76365659]
+ [123.09123084 127.23645226 131.42718708 ... 125.37983009 127.72671206
+  133.22978519]
+ ...
+ [124.66672102 124.50984023 127.78069583 ... 127.63575418 124.20630545
+  130.33901703]
+ [127.86279804 125.37810191 129.98205898 ... 126.95612143 124.36278157
+  130.06409596]
+ [124.05889342 125.99340648 129.66919896 ... 125.30768233 126.1418492
+  129.27104921]]
